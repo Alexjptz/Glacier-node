@@ -161,7 +161,8 @@ while true; do
                     1)
                         process_notification "Запускаем (Starting)..."
                         sleep 1
-                        screen -dmS glacier bash -c "cd $HOME/glacier && exec ./verifier_linux_amd64" && screen -r glacier
+                        screen -dmS glacier bash -c "cd $HOME/glacier && exec ./verifier_linux_amd64"
+                        screen -r glacier
                         ;;
                     2)
                         process_notification "Останавливаем (Stopping)..."
