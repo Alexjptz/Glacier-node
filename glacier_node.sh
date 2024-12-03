@@ -111,7 +111,7 @@ while true; do
     case $option in
         1)
             #PREPARATION
-            run_commands "cd $HOME && sudo apt update && sudo apt upgrade -y && apt install unzip screen"
+            run_commands "cd $HOME && sudo apt update && sudo apt upgrade -y && apt install unzip screen jq"
             echo
             show_green "--- ПОГОТОВКА ЗАЕРШЕНА. PREPARATION COMPLETED ---"
             echo
@@ -123,7 +123,10 @@ while true; do
 
             process_notification "Скачиваем (Downloading)..."
             mkdir $HOME/glacier && cd $HOME/glacier
-            run_commands "wget https://github.com/Glacier-Labs/node-bootstrap/releases/download/v0.0.2-beta/verifier_linux_amd64"
+            LATEST_PRE_RELEASE=$(curl -s https://api.github.com/repos/Glacier-Labs/node-bootstrap/releases | \
+            jq -r 'map(select(.prerelease == true)) | .[0].tag_name')
+            show_green "LAST VERSION: $LATEST_PRE_RELEASE"
+            run_commands "wget https://github.com/Glacier-Labs/node-bootstrap/releases/download/$LATEST_PRE_RELEASE/verifier_linux_amd64"
             run_commands "wget https://glacier-labs.github.io/node-bootstrap/config.yaml"
             cd $HOME/glacier && sudo chmod +x verifier_linux_amd64
 
